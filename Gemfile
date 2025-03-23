@@ -51,6 +51,16 @@ group :development, :test do
 
   # Omakase Ruby styling [https://github.com/rails/rubocop-rails-omakase/]
   gem "rubocop-rails-omakase", require: false
+
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'simplecov'
+end
+
+group :test do
+  gem 'faker'
+  gem 'shoulda-matchers', '~> 6.0'
+  gem 'database_cleaner-active_record'
 end
 
 group :development do
