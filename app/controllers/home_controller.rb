@@ -3,5 +3,8 @@ class HomeController < ApplicationController
   before_action :resume_session, only: [:index]
 
   def index
+    respond_to do |format|
+      format.html
+    end
   end
 end

@@ -18,10 +18,63 @@
     <link rel="apple-touch-icon" href="/icon.png">
 
     <%# Includes all stylesheet files in app/assets/stylesheets %>
+    <%= stylesheet_link_tag "tailwind", "inter-font", "data-turbo-track": "reload" %>
     <%= stylesheet_link_tag :app, "data-turbo-track": "reload" %>
   </head>
 
   <body>
+
+  <!-- Navbar -->
+  <nav class="fixed top-0 left-0 right-0 bg-white border-b border-gray-200 shadow z-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex justify-between h-16 items-center">
+
+        <!-- Botão de login/logout (esquerda) -->
+        <div>
+          <% if Current.user.present? %>
+            <%= button_to "Logout", session_path, method: :delete, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-black underline focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          <% else %>
+            <%= link_to "Login", new_session_path, class: "inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500" %>
+          <% end %>
+        </div>
+
+        <!-- Menu de navegação (direita) -->
+        <div class="hidden md:flex space-x-4">
+          <%= link_to "Início", root_path, class: "text-gray-700 hover:text-indigo-600" %>
+          <%= link_to "Jogadores", "", class: "text-gray-700 hover:text-indigo-600" %>
+          <%= link_to "Resultados", "", class: "text-gray-700 hover:text-indigo-600" %>
+        </div>
+
+        <!-- Ícone de menu (mobile) -->
+        <div class="md:hidden">
+          <button id="menu-toggle" class="text-gray-600 focus:outline-none text-2xl">☰</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Menu mobile -->
+    <div id="mobile-menu" class="md:hidden hidden px-4 pb-4">
+      <%= link_to "Início", root_path, class: "block py-2 text-gray-700 hover:text-indigo-600" %>
+      <%= link_to "Jogadores", "", class: "block py-2 text-gray-700 hover:text-indigo-600" %>
+      <%= link_to "Resultados", "", class: "block py-2 text-gray-700 hover:text-indigo-600" %>
+    </div>
+  </nav>
+
+  <!-- Conteúdo principal -->
+  <main class="container mx-auto mt-28 px-5 flex">
     <%= yield %>
+  </main>
+
+  <!-- JS simples para toggle do menu mobile -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const toggle = document.getElementById('menu-toggle');
+      const menu = document.getElementById('mobile-menu');
+
+      toggle.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+      });
+    });
+  </script> 
   </body>
 </html>
