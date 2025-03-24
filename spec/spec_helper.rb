@@ -1,5 +1,15 @@
 require 'simplecov'
 SimpleCov.start 'rails' do
+  unless ENV["CI"]
+    changed_files = `git diff --name-only origin/main`.split("\n")
+    add_group "Changed" do |source_file|
+      changed_files.detect do |filename|
+        source_file.filename.ends_with?(filename)
+      end
+    end
+  end
+
+  add_filter '/spec/'
   add_filter '/channels/'
   add_filter '/jobs/'
   add_filter '/mailers/'
