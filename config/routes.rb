@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  mount MissionControl::Jobs::Engine, at: "/jobs" # TODO, http_auth: { user: "test", password: "123456" }
+  
   get "home/index"
   resource :session
   resources :passwords, param: :token
