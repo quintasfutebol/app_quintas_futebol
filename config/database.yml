@@ -19,14 +19,31 @@ default: &default
   # https://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
 
+sqlite: &sqlite
+  adapter: sqlite3
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
 
 development:
-  <<: *default
-  database: quintas_futebol_development
-  username: postgres
-  password: postgrespw
-  host: localhost
-  port: 55000
+  primary:
+    <<: *default
+    database: quintas_futebol_development
+    username: postgres
+    password: postgrespw
+    host: localhost
+    port: 55000
+  cache:
+    <<: *sqlite
+    database: storage/quintas_futebol_development_cache.sqlite3
+    migrations_paths: db/cache_migrate
+  cable:
+    <<: *sqlite
+    database: storage/quintas_futebol_development_cable.sqlite3
+    migrations_paths: db/cable_migrate
+  queue:
+    <<: *sqlite
+    database: storage/quintas_futebol_development_queue.sqlite3
+    migrations_paths: db/queue_migrate
 
   # Schema search path. The server defaults to $user,public
   #schema_search_path: myapp,sharedapp,public
@@ -72,17 +89,16 @@ production:
   primary: &primary_production
     <<: *default
     database: quintas_futebol_production
-    username: quintas_futebol
-    password: <%= ENV["QUINTAS_FUTEBOL_DATABASE_PASSWORD"] %>
+    url: <%= Rails.application.credentials.db_url %>
   cache:
-    <<: *primary_production
-    database: quintas_futebol_production_cache
+    <<: *sqlite
+    database: storage/quintas_futebol_production_cache.sqlite3
     migrations_paths: db/cache_migrate
-  queue:
-    <<: *primary_production
-    database: quintas_futebol_production_queue
-    migrations_paths: db/queue_migrate
   cable:
-    <<: *primary_production
-    database: quintas_futebol_production_cable
+    <<: *sqlite
+    database: storage/quintas_futebol_production_cable.sqlite3
     migrations_paths: db/cable_migrate
+  queue:
+    <<: *sqlite
+    database: storage/quintas_futebol_production_queue.sqlite3
+    migrations_paths: db/queue_migrate

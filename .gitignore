@@ -40,3 +40,5 @@
 
 # SimpleCov coverage report
 /coverage
+
+/config/credentials/production.key
