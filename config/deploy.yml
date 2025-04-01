@@ -58,7 +58,7 @@ env:
 
     # Match this to any external database server to configure Active Record correctly
     # Use the_life_planner-db for a db accessory server on same machine via local kamal docker network.
-    DB_HOST: DB_HOST
+    # DB_HOST: 
 
 # Aliases are triggered with "bin/kamal <alias>". You can overwrite arguments on invocation:
 # "bin/kamal app logs -r job" will tail logs from the first server in the job section.
