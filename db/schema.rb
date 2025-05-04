@@ -10,21 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_03_23_195549) do
+ActiveRecord::Schema[8.0].define(version: 2025_05_04_212205) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
+
+  create_table "account_users", id: false, force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.bigint "user_id", null: false
+    t.index ["account_id", "user_id"], name: "index_account_users_on_account_id_and_user_id"
+    t.index ["user_id", "account_id"], name: "index_account_users_on_user_id_and_account_id"
+  end
 
   create_table "accounts", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "accounts_users", id: false, force: :cascade do |t|
-    t.bigint "account_id", null: false
-    t.bigint "user_id", null: false
-    t.index ["account_id", "user_id"], name: "index_accounts_users_on_account_id_and_user_id"
-    t.index ["user_id", "account_id"], name: "index_accounts_users_on_user_id_and_account_id"
+    t.string "slug"
+    t.index ["slug"], name: "index_accounts_on_slug", unique: true
   end
 
   create_table "sessions", force: :cascade do |t|

@@ -4,6 +4,7 @@ module Authentication
   included do
     before_action :require_authentication
     helper_method :authenticated?
+    helper_method :current_account
   end
 
   class_methods do
@@ -13,6 +14,10 @@ module Authentication
   end
 
   private
+    def current_account
+      @current_account ||= Account.find(session[:account_id])
+    end
+
     def authenticated?
       resume_session
     end
@@ -35,8 +40,8 @@ module Authentication
       redirect_to new_session_path
     end
 
-    def after_authentication_url
-      session.delete(:return_to_after_authenticating) || root_url
+    def after_authentication_url(user)
+      after_sign_in_path_for(user)
     end
 
     def start_new_session_for(user)
@@ -44,10 +49,26 @@ module Authentication
         Current.session = session
         cookies.signed.permanent[:session_id] = { value: session.id, httponly: true, same_site: :lax }
       end
+      set_account_for(user)
     end
 
     def terminate_session
       Current.session.destroy
       cookies.delete(:session_id)
+    end
+
+    def set_account_for(user)
+      if user.accounts.count == 1
+        account = user.accounts.first
+        session[:account_id] = account.id
+      end
+    end
+
+    def after_sign_in_path_for(user)
+      if session[:account_id].present?
+        session.delete(:return_to_after_authenticating) || root_url
+      else
+        accounts_selection_path
+      end
     end
 end

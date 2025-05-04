@@ -1,12 +1,22 @@
 require 'rails_helper'
 
 RSpec.describe Account, type: :model do
-  describe 'associations' do
-    it { is_expected.to have_and_belong_to_many(:users) }
-  end
-
   describe 'validations' do
     it { is_expected.to validate_presence_of(:name) }
+  end
+
+  describe "#generate_slug" do
+    it "generates a slug from the name before validation" do
+      account = Account.new(name: "Futebol Clube do Bairro")
+      account.valid?
+      expect(account.slug).to eq("futebol-clube-do-bairro")
+    end
+
+    it "does not overwrite an existing slug" do
+      account = Account.new(name: "Meu Clube", slug: "custom-slug")
+      account.valid?
+      expect(account.slug).to eq("custom-slug")
+    end
   end
 
   context 'when associating users' do
