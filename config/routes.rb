@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+  get "accounts/select", to: "accounts#select", as: :accounts_selection
+  get "accounts/:slug/set", to: "accounts#set", as: :set_account
+
   mount MissionControl::Jobs::Engine, at: "/jobs" # TODO, http_auth: { user: "test", password: "123456" }
 
   get "home/index"
