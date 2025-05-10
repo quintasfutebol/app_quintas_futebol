@@ -75,7 +75,7 @@ end
 
 group :test do
   gem "faker"
-  gem "shoulda-matchers", "~> 6.0"
+  gem "shoulda-matchers", "~> 6.5"
   gem "database_cleaner-active_record"
 end
 
