@@ -54,7 +54,7 @@ gem "image_processing", "~> 1.2"
 # https://github.com/rails/tailwindcss-rails/discussions/499
 # gem "tailwindcss-rails", "~> 4.2.1"
 
-gem "tailwindcss-rails", "~> 3.3.1"
+gem "tailwindcss-rails", "~> 4.3.0"
 
 gem "mission_control-jobs"
 
