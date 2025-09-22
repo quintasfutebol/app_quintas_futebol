@@ -10,7 +10,7 @@ gem "propshaft"
 gem "pg", "~> 1.5"
 
 # Para SolidQueue, SolidCache e SolidCable
-gem "sqlite3", "~> 2.1"
+gem "sqlite3", "~> 2.7"
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem "puma", ">= 5.0"
