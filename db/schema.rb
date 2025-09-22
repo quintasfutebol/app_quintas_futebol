@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_05_04_212205) do
+ActiveRecord::Schema[8.0].define(version: 2025_09_22_175446) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -27,6 +27,35 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_212205) do
     t.datetime "updated_at", null: false
     t.string "slug"
     t.index ["slug"], name: "index_accounts_on_slug", unique: true
+  end
+
+  create_table "matches", force: :cascade do |t|
+    t.bigint "account_id", null: false
+    t.date "date"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_matches_on_account_id"
+  end
+
+  create_table "player_matches", force: :cascade do |t|
+    t.bigint "match_id", null: false
+    t.bigint "player_id", null: false
+    t.bigint "account_id", null: false
+    t.integer "goals_scored", default: 0
+    t.boolean "is_goalkeeper", default: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_player_matches_on_account_id"
+    t.index ["match_id"], name: "index_player_matches_on_match_id"
+    t.index ["player_id"], name: "index_player_matches_on_player_id"
+  end
+
+  create_table "players", force: :cascade do |t|
+    t.string "name"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_players_on_account_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -46,5 +75,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_05_04_212205) do
     t.index ["email_address"], name: "index_users_on_email_address", unique: true
   end
 
+  add_foreign_key "matches", "accounts"
+  add_foreign_key "player_matches", "accounts"
+  add_foreign_key "player_matches", "matches"
+  add_foreign_key "player_matches", "players"
+  add_foreign_key "players", "accounts"
   add_foreign_key "sessions", "users"
 end
