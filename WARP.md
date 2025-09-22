@@ -155,12 +155,12 @@ The application expects PostgreSQL running on:
 - `config/deploy.yml`: Kamal deployment configuration
 - `config/database.yml`: Multi-database configuration
 - `.rubocop.yml`: Uses rails-omakase styling
-- `coverage_threshold.txt`: Minimum test coverage requirement (45.96%)
+- `codecov.yml`: Minimum test coverage requirement (45.96%)
 
 ## Testing Strategy
 
 - **Framework**: RSpec with FactoryBot for test data
-- **Coverage**: SimpleCov with enforced minimum threshold via `bin/check_coverage.sh`
+- **Coverage**: SimpleCov with enforced minimum threshold via `ruby update_codecov.rb`
 - **Matchers**: Shoulda matchers for Rails-specific assertions
 - **Database**: DatabaseCleaner for test isolation
 
